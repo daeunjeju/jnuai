@@ -1,6 +1,6 @@
 import myimport as my
 
-my.ignore_warning()
+my.ignore_warning() # 분류를 위한 알고리즘을 사용할 때 나타나는 경고 메세지를 필터링하기 위해 사용
 
 df = my.read("dataset.csv") # 데이터셋 읽기
 
@@ -42,8 +42,6 @@ my.pairplot(df)
 train, test = my.split(df) # 데이터 문제지와 정답지로 분리하기
 print(train.head(5))
 print(test.head(5))
-
-my.ignore_warning() # 분류를 위한 알고리즘을 사용할 때 나타나는 경고 메세지를 필터링하기 위해 사용
 
 my.run_logistic_regression(df, ['평균 풍속', '평균 상대습도'], '입동여부')
 my.run_decision_tree_classifier(df, ['평균 풍속', '평균 상대습도'], '입동여부')
