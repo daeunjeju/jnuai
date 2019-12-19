@@ -28,7 +28,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 def ignore_warning():
     import warnings
-    warnings.filterwarnings('ignore')
+    warnings.filterwarnings('ignore') # 분류를 위한 알고리즘을 사용할 때 나타나는 경고 메세지를 필터링하기 위해 사용
 
 # matplotlib은 한국어 폰트를 지원하지 않기 때문에 matpoltlib을 한국어 지원 폰트로 수정하기
 import matplotlib as mpl
@@ -219,31 +219,14 @@ train, test = my.split(df)
 print(train.head(5))
 print(test.head(5))
 ~~~
+![split](https://user-images.githubusercontent.com/47231570/71164707-f1788b00-2292-11ea-8704-d6710b84bf56.PNG)
 
+이제 분류 알고리즘을 이용하여 분류해보겠습니다. 분류 알고리즘은 logistic regression, KNN, dicision tree, SVM을 이용하였습니다.
 
+입동 여부를 알아보기 위해 heatmap에서 나왔던 결과 중 상관계수가 높게 나왔던 평균 풍속과 평균 상대습도를 이용하여 알고리즘을 사용하겠습니다.
 
+먼저 logistic regression을 이용한 알고리즘입니다.
 myimport.py:
-~~~python
-
-~~~
-classification.py:
-~~~python
-
-~~~
-
-
-
-
-
-
-
-my.ignore_warning() # 분류를 위한 알고리즘을 사용할 때 나타나는 경고 메세지를 필터링하기 위해 사용
-
-my.run_logistic_regression(df, ['평균 풍속', '평균 상대습도'], '입동여부')
-my.run_decision_tree_classifier(df, ['평균 풍속', '평균 상대습도'], '입동여부')
-my.run_neighbor_classifier(df, ['평균 풍속', '평균 상대습도'], '입동여부', 5)
-my.run_svm(df, ['평균 풍속', '평균 상대습도'], '입동여부')
-
 ~~~python
 def run_logistic_regression(df, list, target):
     train, test = train_test_split(df, test_size=0.3)
@@ -257,7 +240,16 @@ def run_logistic_regression(df, list, target):
     rate = metrics.accuracy_score(prediction, test_y) * 100
     print('인식률:', rate)
     return rate
+~~~
+classification.py:
+~~~python
+my.run_logistic_regression(df, ['평균 풍속', '평균 상대습도'], '입동여부')
+~~~
+![로지스틱 결과](https://user-images.githubusercontent.com/47231570/71164722-f63d3f00-2292-11ea-970f-561defd22d1f.PNG)
 
+KNN을 알고리즘입니다. K를 5로 설정하였습니다.
+myimport.py:
+~~~python
 def run_neighbor_classifier(df, list, target, num):
     train, test = train_test_split(df, test_size=0.3)
     train_X = train[list]  # 키와 발크기만 선택
@@ -270,7 +262,16 @@ def run_neighbor_classifier(df, list, target, num):
     rate = metrics.accuracy_score(prediction, test_y) * 100
     print('인식률:', rate)
     return rate
+~~~
+classification.py:
+~~~python
+my.run_decision_tree_classifier(df, ['평균 풍속', '평균 상대습도'], '입동여부')
+~~~
+![knn 결과](https://user-images.githubusercontent.com/47231570/71164744-fdfce380-2292-11ea-97f3-84517784a9a5.PNG)
 
+dicision tree를 이용한 알고리즘 입니다.
+myimport.py:
+~~~python
 def run_decision_tree_classifier(df, list, target):
     train, test = train_test_split(df, test_size=0.3)
     train_X = train[list]  # 키와 발크기만 선택
@@ -283,7 +284,16 @@ def run_decision_tree_classifier(df, list, target):
     rate = metrics.accuracy_score(prediction, test_y) * 100
     print('인식률:', rate)
     return rate
+~~~
+classification.py:
+~~~python
+my.run_neighbor_classifier(df, ['평균 풍속', '평균 상대습도'], '입동여부', 5)
+~~~
+![결정트리 결과](https://user-images.githubusercontent.com/47231570/71164721-f63d3f00-2292-11ea-91f3-f961d3f344cf.PNG)
 
+마지막으로 SVM을 이용한 알고리즘입니다.
+myimport.py:
+~~~python
 def run_svm(df, list, target):
     train, test = train_test_split(df, test_size=0.3)
     train_X = train[list]  # 키와 발크기만 선택
@@ -297,3 +307,8 @@ def run_svm(df, list, target):
     print('인식률:', rate)
     return rate
 ~~~
+classification.py:
+~~~python
+my.run_svm(df, ['평균 풍속', '평균 상대습도'], '입동여부')
+~~~
+![svm 결과](https://user-images.githubusercontent.com/47231570/71164733-fa695c80-2292-11ea-8b42-afc06abba5d4.PNG)
