@@ -1,7 +1,6 @@
 11월의 날씨 정보를 이용하여 입동 여부 알아보기
-================
+=============================================
 
-# jnuai
 제주대학교 인공지능 기말 과제물입니다.
 
 https://github.com/yungbyun/mllib 의 Classification_util.py 중 제게 필요한 코드를 골라 저만의 myimport.py를 만들어 사용했습니다.
@@ -92,6 +91,7 @@ df.info()
 ![2](https://user-images.githubusercontent.com/47231570/71112840-be40e800-220f-11ea-8294-37975293ae19.PNG)
 
 describe()를 사용하여 컬럼별 총 데이터 수, 평균값, 표준편차, 최소~최대 및 4분위수를 확인해보겠습니다.
+
 classification.py:
 ~~~python
 print(df.describe())
@@ -99,6 +99,7 @@ print(df.describe())
 ![3](https://user-images.githubusercontent.com/47231570/71112937-ef211d00-220f-11ea-82f7-af0cd9a0a0cb.PNG)
 
 이제 상관계수를 알아보기 위해 heatmap을 사용하겠습니다.
+
 myimport.py:
 ~~~python
 def heatmap(df):
@@ -119,6 +120,7 @@ heatmap을 이용하여 입동 여부와 다른 컬럼들 중 '평균 풍속'과
 이를 확인하기 위해 그래프를 이용하여 비교하겠습니다.
 
 먼저 numpy의 histogram을 이용한 것입니다. 각 컬럼들의 histogram을 볼 수 있습니다.
+
 myimport.py:
 ~~~python
 def hist(a):
@@ -134,6 +136,7 @@ my.hist(df)
 ![hist](https://user-images.githubusercontent.com/47231570/71113162-6060d000-2210-11ea-84c1-84046ad0b594.png)
 
 다음으로 입동여부와 평균기온을 scatter plot을 이용해 그려보았습니다.
+
 myimport.py:
 ~~~python
 def scatter(df, column_x, column_y):  # scatter 그래프 그리기
@@ -148,6 +151,7 @@ my.scatter(df, '입동여부', '평균기온')
 ![평균기온vs입동여부](https://user-images.githubusercontent.com/47231570/71113410-dbc28180-2210-11ea-8149-96fd891db897.png)
 
 다음은 violin plot을 이용한 입동여부와 최저기온입니다.
+
 myimport.py:
 ~~~python
 def violinplot(df, a, b):  # violinplot 그래프
@@ -163,6 +167,7 @@ my.violinplot(df, '입동여부', '최저기온')
 ![최저기온vs입동여부](https://user-images.githubusercontent.com/47231570/71113486-06acd580-2211-11ea-8e66-2802f162f41a.png)
 
 입동여부와 최고기온 그래프입니다.
+
 classification.py:
 ~~~python
 my.violinplot(df, '입동여부', '최고기온')
@@ -184,6 +189,7 @@ my.scatter(df, '입동여부', '평균 상대습도')
 ![평균상대습도vs입동여부](https://user-images.githubusercontent.com/47231570/71113664-6b683000-2211-11ea-8893-89ae3f1e505a.png)
 
 입동여부와 평균 지면온도 그래프입니다.
+
 classification.py:
 ~~~python
 my.violinplot(df, '입동여부', '평균 지면온도')
@@ -191,6 +197,7 @@ my.violinplot(df, '입동여부', '평균 지면온도')
 ![평균지면온도vs입동여부](https://user-images.githubusercontent.com/47231570/71113666-6b683000-2211-11ea-8b30-45306828ef3e.png)
 
 pairplot을 이용한 각 컬럼들의 그래프입니다.
+
 myimport.py:
 ~~~python
 def pairplot(df):  # pairplot 그래프 그리기
@@ -206,6 +213,7 @@ my.pairplot(df)
 ![pairplot](https://user-images.githubusercontent.com/47231570/71113804-b5511600-2211-11ea-8db1-3422c753d806.png)
 
 데이터를 확인했으니 이제 분류를 하기 위해서 데이터프레임을 분리해야 합니다.
+
 myimport.py:
 ~~~python
 def split(df):
@@ -226,6 +234,7 @@ print(test.head(5))
 입동 여부를 알아보기 위해 heatmap에서 나왔던 결과 중 상관계수가 높게 나왔던 평균 풍속과 평균 상대습도를 이용하여 알고리즘을 사용하겠습니다.
 
 먼저 logistic regression을 이용한 알고리즘입니다.
+
 myimport.py:
 ~~~python
 def run_logistic_regression(df, list, target):
@@ -248,6 +257,7 @@ my.run_logistic_regression(df, ['평균 풍속', '평균 상대습도'], '입동
 ![로지스틱 결과](https://user-images.githubusercontent.com/47231570/71164722-f63d3f00-2292-11ea-970f-561defd22d1f.PNG)
 
 KNN을 알고리즘입니다. K를 5로 설정하였습니다.
+
 myimport.py:
 ~~~python
 def run_neighbor_classifier(df, list, target, num):
@@ -270,6 +280,7 @@ my.run_decision_tree_classifier(df, ['평균 풍속', '평균 상대습도'], '�
 ![knn 결과](https://user-images.githubusercontent.com/47231570/71164744-fdfce380-2292-11ea-97f3-84517784a9a5.PNG)
 
 dicision tree를 이용한 알고리즘 입니다.
+
 myimport.py:
 ~~~python
 def run_decision_tree_classifier(df, list, target):
@@ -292,6 +303,7 @@ my.run_neighbor_classifier(df, ['평균 풍속', '평균 상대습도'], '입동
 ![결정트리 결과](https://user-images.githubusercontent.com/47231570/71164721-f63d3f00-2292-11ea-91f3-f961d3f344cf.PNG)
 
 마지막으로 SVM을 이용한 알고리즘입니다.
+
 myimport.py:
 ~~~python
 def run_svm(df, list, target):
